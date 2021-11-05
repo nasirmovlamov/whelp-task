@@ -18,9 +18,11 @@ const TasksAdd = (props: Props) => {
     
     const addTaskSubmitHandle = (e:any) => {
         e.preventDefault()
-        dispatch(addTask(null))
-        dispatch(fieldOnChage({task_value:""}))
-
+        if(fieldValue !== '')
+        {
+            dispatch(addTask(null))
+            dispatch(fieldOnChage({task_value:""}))
+        }
     }
     
     const fieldFocusHandler = () => {
