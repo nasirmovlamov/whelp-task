@@ -3,6 +3,8 @@ import { RootState } from './../../../store/store';
 import { TASKS_CONTAINER_STATE } from './../state/TasksContainer.state';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { getTasks } from '../thunk/TasksContainer.thunk';
+import { autoSuccessToaster } from '../../../../helpers/toaster/AutoSuccessToast';
+import { autoErrorToaster } from '../../../../helpers/toaster/AutoErrorToaster';
 
 
 
@@ -20,14 +22,17 @@ export const TASKS_CONTAINER_SLICE = createSlice({
           task_created_at:Date.now(),
           isEditEnabled:false
         })
+        autoSuccessToaster('Task added successfully!')
         setCookie('tasks' , JSON.stringify(state.tasks) , 14)
       },
       deleteTask(state,action){
         state.tasks = state.tasks.filter(task => task.task_id !== action.payload.id)
         setCookie('tasks' , JSON.stringify(state.tasks) , 14)
+        autoErrorToaster('Task deleted successfully!')
       },
       completeTask(state,action){
         state.tasks.filter(task => task.task_id === action.payload.id)[0].task_status = 'completed'
+        autoSuccessToaster('Task completed successfully!')
         setCookie('tasks' , JSON.stringify(state.tasks) , 14)
       },
       enableEditing(state,action){
